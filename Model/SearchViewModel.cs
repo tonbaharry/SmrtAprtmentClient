@@ -8,8 +8,8 @@ namespace SmrtAprtmentClient.Model
 {
     public class SearchViewModel: PageModel
     {
-        public IEnumerable<SearchViewModel> SearchViewModels { get; set; }
-        public Management management { get; set; }
-        public Properties properties { get; set; }
+        
+        public List<Management> management { get; set; }
+        public List<Properties> properties { get; set; }
     }
 }

@@ -2,30 +2,147 @@
 
 @model SearchModel
 
-@{ 
+@{
     ViewData["Title"] = "Search";
 }
-
+@Html.Raw(TempData["PostBackMessage"])
 <p>
 
 </p>
 <form asp-action="Search">
     <div class="input-group md-form form-control-sm form-2 pl-0">
-        <input name="searchquery" class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search"/>
+        <input name="searchquery" asp-for="SearchQuery" class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search" />
         <div class="input-group-append">
-            <span class="input-group-text red-lighten-3" id="basic-text1">
-                <i class="fas fa-search text-grey" aria-hidden="true"></i>
-            </span>
+            <button class="input-group-text red-lighten-3 button" id="basic-text1" value="Search">Search</button>
         </div>
     </div>
+    <br />
+    <div>
+        @foreach (var type in Model.requestTypes)
+        {
+            <input id="@type.RequestId" type="radio" name="type_" value="@type.RequestId" class="check-radio" />
+            <label for="@type.RequestId">@type.RequestName &nbsp; &nbsp;</label>
+
+        }
+    </div>
+
 </form>
+    @if (Model.imanagement != null && Model.imanagement.Count() > 0)
+    {
+    
+        <br />
+        <br />
+        <h4>Management</h4>
+        <hr />
+        <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
+            <tr>
+                <th>Management ID</th>
+                <th>Name</th>
+                <th>Market</th>
+                <th>State</th>
+            </tr>
+
+            @foreach (var mgt in Model.imanagement)
+            {
+                <tr>
+                    <td>@mgt.mgmt.mgmtID</td>
+                    <td>@mgt.mgmt.name</td>
+                    <td>@mgt.mgmt.market</td>
+                    <td>@mgt.mgmt.state</td>
+                </tr>
+            }
+
+        </table>
+    }
+    else if(Model.iproperty != null && Model.iproperty.Count() > 0)
+    {
+        <br />
+        <br />
+        <h4>Properties</h4>
+        <hr />
+        <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
+            <tr>
+                <th>Property ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Market</th>
+                <th>State</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+
+            @foreach (var prop in Model.iproperty)
+            {
+                <tr>
+                    <td>@prop.property.propertyID</td>
+                    <td>@prop.property.name</td>
+                    <td>@prop.property.streetAddress>
+                    <td>@prop.property.city</td>
+                    <td>@prop.property.market</td>
+                    <td>@prop.property.state</td>
+                    <td>@prop.property.lat</td>
+                    <td>@prop.property.lng</td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        @if (Model.isResult)
+        {
+            <h3 style="align-content:center">NO RECORD FOUND</h3>
+        }
+    }
+
 
 @section scripts {
-<script>
-    $(function () {
-        $("#basic-text1").click(function () {
-            $("Form").submit();
-        })
-    });
-</script>
+    <script>
+        $(function () {
+            $("#basic-text1").click(function () {
+                $("Form").submit();
+            })
+
+            $('.check-radio').change(function () {
+                if ($(this).is(':checked')) {
+                    $('.check-radio').prop("checked", false);
+                    $(this).prop("checked", true);
+                }
+            });
+        });
+    </script>
 }
+
+<style>
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .table td {
+            padding: 7px;
+            border: #4e95f4 1px solid;
+        }
+
+        .table tr:hover {
+            background-color: "#ffff99";
+        }
+
+        .table th {
+            background-color: lightgray;
+            border: 1px solid #000;
+        }
+
+        .table tr:nth-child(even) {
+            background: #F0F8FF;
+        }
+
+        .table tr:nth-child(odd) {
+            background: #FFF;
+        }
+
+    h3 {
+        padding-left: 1%;
+    }
+</style>

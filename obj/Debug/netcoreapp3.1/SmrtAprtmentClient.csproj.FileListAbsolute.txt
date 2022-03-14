@@ -38,3 +38,4 @@ C:\Users\tubot\SmrtAprtmentClient\obj\Debug\netcoreapp3.1\SmrtAprtmentClient.gen
 C:\Users\tubot\SmrtAprtmentClient\obj\Debug\netcoreapp3.1\SmrtAprtmentClient.csproj.CopyComplete
 C:\Users\tubot\SmrtAprtmentClient\obj\Debug\netcoreapp3.1\Razor\Pages\Search.cshtml.g.cs
 C:\Users\tubot\SmrtAprtmentClient\obj\Debug\netcoreapp3.1\Razor\Pages\Shared\Upload.cshtml.g.cs
+C:\Users\tubot\SmrtAprtmentClient\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll

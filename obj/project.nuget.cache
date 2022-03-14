@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xcBLwUhk6vyC19A8GQWFQJKkh8jT35xlSiKnRi8+I2D+8Kb8bop0kcAfxj1EvvNalUZ/rIBFIN5p6VUkG3y18Q==",
+  "dgSpecHash": "GtlqOFlDhveb/oQy1O8+Vs2lag3flfgHzny9YNTpiv75hyWCEd61r9kwJHg0HCwxpAeJmr8NVklYIijE9yVCow==",
   "success": true,
   "projectFilePath": "C:\\Users\\tubot\\SmrtAprtmentClient\\SmrtAprtmentClient.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\tubot\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

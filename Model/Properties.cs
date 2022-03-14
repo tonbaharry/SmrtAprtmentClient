@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SmrtAprtmentClient.Model
 {
-    public class Properties
+    public class Property
     {
         public int propertyID { get; set; }
         public string name { get; set; }
@@ -16,5 +16,10 @@ namespace SmrtAprtmentClient.Model
         public string state { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
+    }
+
+    public class Properties
+    {
+        public Property property { get; set; }
     }
 }
