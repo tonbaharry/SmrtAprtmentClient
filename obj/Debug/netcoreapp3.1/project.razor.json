@@ -14407,6 +14407,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\tubot\\SmrtAprtmentClient\\Pages\\Login.cshtml",
+      "TargetPath": "Pages\\Login.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\tubot\\SmrtAprtmentClient\\Pages\\Privacy.cshtml",
       "TargetPath": "Pages\\Privacy.cshtml",
       "FileKind": "mvc"

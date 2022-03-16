@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SmrtAprtmentClient.APIClient
@@ -17,8 +19,24 @@ namespace SmrtAprtmentClient.APIClient
             MissingMemberHandling = MissingMemberHandling.Ignore
         };
 
-        public static async Task<List<Management>> GetManagementAsync(string path)
+        public static async Task<LoginResponse> LoginAsync(string path, LoginRequest model)
         {
+            var request = JsonConvert.SerializeObject(model);
+            var requestContent = new StringContent(request, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(path, requestContent);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                LoginResponse value = JsonConvert.DeserializeObject<LoginResponse>(result, settings);
+                return value;
+            }
+            return new LoginResponse();
+        }
+
+
+        public static async Task<List<Management>> GetManagementAsync(string path, string token)
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
@@ -29,8 +47,9 @@ namespace SmrtAprtmentClient.APIClient
             return new List<Management>();
         }
 
-        public static async Task<List<Properties>> GetPropertiesAsync(string path)
+        public static async Task<List<Properties>> GetPropertiesAsync(string path, string token)
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -32,17 +33,17 @@ namespace SmrtAprtmentClient.Pages
         {
             string validateResult = validateData(type_, SearchQuery);
             this.requestTypes = APIClient.Request.PopulateRequestTypes();
-
+            var accessToken = HttpContext.Session.GetString("LoginResponse");
             if (string.IsNullOrEmpty(validateResult))
             {
                 
                 switch (requestTypes.Where(x => x.RequestId.Equals(type_)).ToList()[0].RequestName)
                 {
                     case "Management":
-                        imanagement = await APIClient.Request.GetManagementAsync(_configuration["APIBaseUrl"] + "SearchManagement?query=" + SearchQuery); 
+                        imanagement = await APIClient.Request.GetManagementAsync(_configuration["APIBaseUrl"] + "SearchManagement?query=" + SearchQuery, accessToken); 
                         break;
                     case "Properties":
-                        iproperty = await APIClient.Request.GetPropertiesAsync(_configuration["APIBaseUrl"] + "SearchProperty?query=" + SearchQuery); 
+                        iproperty = await APIClient.Request.GetPropertiesAsync(_configuration["APIBaseUrl"] + "SearchProperty?query=" + SearchQuery, accessToken); 
                         break;
                 }
                 
@@ -64,6 +65,11 @@ namespace SmrtAprtmentClient.Pages
 
         public async Task OnGetAsync()
         {
+            var accessToken = HttpContext.Session.GetString("LoginResponse");
+            if(accessToken == null)
+            {
+                Redirect("./Login");
+            }
             this.isResult = false;
             this.requestTypes = APIClient.Request.PopulateRequestTypes();
         }

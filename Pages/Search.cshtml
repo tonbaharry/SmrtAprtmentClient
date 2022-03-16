@@ -29,7 +29,7 @@
 </form>
     @if (Model.imanagement != null && Model.imanagement.Count() > 0)
     {
-    
+
         <br />
         <br />
         <h4>Management</h4>
@@ -41,15 +41,19 @@
                 <th>Market</th>
                 <th>State</th>
             </tr>
-
+            @{
+               int i = 1;
+            }
             @foreach (var mgt in Model.imanagement)
             {
                 <tr>
-                    <td>@mgt.mgmt.mgmtID</td>
+                    <td>@i</td>
                     <td>@mgt.mgmt.name</td>
                     <td>@mgt.mgmt.market</td>
                     <td>@mgt.mgmt.state</td>
                 </tr>
+
+               i++;
             }
 
         </table>
