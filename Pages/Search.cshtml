@@ -11,12 +11,14 @@
 </p>
 <form asp-action="Search">
     <div class="input-group md-form form-control-sm form-2 pl-0">
-        <input name="searchquery" asp-for="SearchQuery" class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search" />
+        <input name="searchquery" asp-for="SearchQuery" class="form-control my-0 py-1 red-border" type="text" placeholder="Search" aria-label="Search" id="search" />
+        <br /><br />
         <div class="input-group-append">
-            <button class="input-group-text red-lighten-3 button" id="basic-text1" value="Search">Search</button>
+            <button class="input-group-text red-lighten-3 button" id="searchButton" value="Search">Search</button>
         </div>
     </div>
     <br />
+    <div id="container"></div>
     <div>
         @foreach (var type in Model.requestTypes)
         {
@@ -27,88 +29,97 @@
     </div>
 
 </form>
-    @if (Model.imanagement != null && Model.imanagement.Count() > 0)
-    {
+@if (Model.imanagement != null && Model.imanagement.Count() > 0)
+{
 
-        <br />
-        <br />
-        <h4>Management</h4>
-        <hr />
-        <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
-            <tr>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Market</th>
-                <th>State</th>
-            </tr>
-            @{
-               int i = 1;
-            }
-            @foreach (var mgt in Model.imanagement)
-            {
-                <tr>
-                    <td>@i</td>
-                    <td>@mgt.mgmt.name</td>
-                    <td>@mgt.mgmt.market</td>
-                    <td>@mgt.mgmt.state</td>
-                </tr>
-
-               i++;
-            }
-
-        </table>
-    }
-    else if(Model.iproperty != null && Model.iproperty.Count() > 0)
-    {
-        
-        int j = 1;
-        
-        <br />
-        <br />
-        <h4>Properties</h4>
-        <hr />
-        <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
-            <tr>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>Market</th>
-                <th>State</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-            </tr>
-
-            @foreach (var prop in Model.iproperty)
-            {
-                <tr>
-                    <td>@j</td>
-                    <td>@prop.property.name</td>
-                    <td>@prop.property.streetAddress>
-                    <td>@prop.property.city</td>
-                    <td>@prop.property.market</td>
-                    <td>@prop.property.state</td>
-                    <td>@prop.property.lat</td>
-                    <td>@prop.property.lng</td>
-                </tr>
-                j++;
-            }
-
-        </table>
-    }
-    else
-    {
-        @if (Model.isResult)
-        {
-            <h3 style="align-content:center">NO RECORD FOUND</h3>
+    <br />
+    <br />
+    <h4>Management</h4>
+    <hr />
+    <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
+        <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Market</th>
+            <th>State</th>
+        </tr>
+        @{
+            int i = 1;
         }
+        @foreach (var mgt in Model.imanagement)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@mgt.mgmt.name</td>
+                <td>@mgt.mgmt.market</td>
+                <td>@mgt.mgmt.state</td>
+            </tr>
+
+            i++;
+        }
+
+    </table>
+}
+else if (Model.iproperty != null && Model.iproperty.Count() > 0)
+{
+
+    int j = 1;
+
+    <br />
+    <br />
+    <h4>Properties</h4>
+    <hr />
+    <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
+        <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Market</th>
+            <th>State</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+        </tr>
+
+        @foreach (var prop in Model.iproperty)
+        {
+            <tr>
+                <td>@j</td>
+                <td>@prop.property.name</td>
+                <td>@prop.property.streetAddress>
+                <td>@prop.property.city</td>
+                <td>@prop.property.market</td>
+                <td>@prop.property.state</td>
+                <td>@prop.property.lat</td>
+                <td>@prop.property.lng</td>
+            </tr>
+            j++;
+        }
+
+    </table>
+}
+else
+{
+    @if (Model.isResult)
+    {
+        <h3 style="align-content:center">NO RECORD FOUND</h3>
     }
+}
 
 
 @section scripts {
+    <link href="https://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/ui/1.10.2/jquery-ui.min.js"></script>
     <script>
+        $(document).ready(function () {
+            $('#search').autocomplete({
+                source: '@Url.Page("Search", "Search")',
+                appendTo: "#container"
+            });
+        });
+
         $(function () {
-            $("#basic-text1").click(function () {
+            $("#searchButton").click(function () {
                 $("Form").submit();
             })
 
@@ -119,6 +130,7 @@
                 }
             });
         });
+
     </script>
 }
 
@@ -128,29 +140,39 @@
         border-collapse: collapse;
     }
 
-        .table td {
-            padding: 7px;
-            border: #4e95f4 1px solid;
-        }
+    .table td {
+        padding: 7px;
+        border: #4e95f4 1px solid;
+    }
 
-        .table tr:hover {
-            background-color: "#ffff99";
-        }
+    .table tr:hover {
+        background-color: "#ffff99";
+    }
 
-        .table th {
-            background-color: lightgray;
-            border: 1px solid #000;
-        }
+    .table th {
+        background-color: lightgray;
+        border: 1px solid #000;
+    }
 
-        .table tr:nth-child(even) {
-            background: #F0F8FF;
-        }
+    .table tr:nth-child(even) {
+        background: #F0F8FF;
+    }
 
-        .table tr:nth-child(odd) {
-            background: #FFF;
-        }
+    .table tr:nth-child(odd) {
+        background: #FFF;
+    }
 
     h3 {
         padding-left: 1%;
     }
+
+    #container {
+        display: block;
+        position: relative
+    }
+
+    .ui-autocomplete {
+        position: absolute;
+    }
+    
 </style>

@@ -63,6 +63,18 @@ namespace SmrtAprtmentClient.Pages
             }
         }
 
+        public async Task<IActionResult> OnGetSearch(string term)
+        {
+            var accessToken = HttpContext.Session.GetString("LoginResponse");
+            var task1 = Task.Factory.StartNew(() => APIClient.Request.GetManagementAsync(_configuration["APIBaseUrl"] + "SearchManagement?query=" + term, accessToken));
+            var task2 = Task.Factory.StartNew(() => APIClient.Request.GetPropertiesAsync(_configuration["APIBaseUrl"] + "SearchProperty?query=" + term, accessToken));
+            
+            //task two is for properties . Implement Autocomplete on Properties
+            return new JsonResult(task2.Result.Result[0].property);
+        }
+
+        
+
         public async Task OnGetAsync()
         {
             var accessToken = HttpContext.Session.GetString("LoginResponse");
