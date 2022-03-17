@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Providers.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +25,7 @@ namespace SmrtAprtmentClient.Pages
         public string UserName { get; set; }
         [BindProperty]
         public string Password { get; set; }
-        public LoginModel(ILogger<LoginModel> logger, IConfiguration configuration)
+        public LoginModel(ILogger<LoginModel> logger, IConfiguration configuration )
         {
             _logger = logger;
             _configuration = configuration;
@@ -48,10 +53,23 @@ namespace SmrtAprtmentClient.Pages
                 TempData["PostBackMessage"] = "<script>alert('Login Failed');</script>";
                 return Page();
             }
-            HttpContext.Session.SetString("LoginResponse", loginResponse.Token); 
-            // return Page();
+
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, Guid.NewGuid().ToString()) };
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            claimsIdentity.AddClaim(new Claim("UserName", loginResponse.userName));
+            var authProperties = new AuthenticationProperties { };
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(1)
+                });
+
+            HttpContext.Session.SetString("LoginResponse", loginResponse.Token);
             return RedirectToPage("./Search");
         }
+
+        
 
         private string validateData()
         {

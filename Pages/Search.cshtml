@@ -36,7 +36,7 @@
         <hr />
         <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
             <tr>
-                <th>Management ID</th>
+                <th>S/N</th>
                 <th>Name</th>
                 <th>Market</th>
                 <th>State</th>
@@ -60,13 +60,16 @@
     }
     else if(Model.iproperty != null && Model.iproperty.Count() > 0)
     {
+        
+        int j = 1;
+        
         <br />
         <br />
         <h4>Properties</h4>
         <hr />
         <table cellpadding="0" cellspacing="0" id="mgt_table" class="table">
             <tr>
-                <th>Property ID</th>
+                <th>S/N</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>City</th>
@@ -79,7 +82,7 @@
             @foreach (var prop in Model.iproperty)
             {
                 <tr>
-                    <td>@prop.property.propertyID</td>
+                    <td>@j</td>
                     <td>@prop.property.name</td>
                     <td>@prop.property.streetAddress>
                     <td>@prop.property.city</td>
@@ -88,6 +91,7 @@
                     <td>@prop.property.lat</td>
                     <td>@prop.property.lng</td>
                 </tr>
+                j++;
             }
 
         </table>

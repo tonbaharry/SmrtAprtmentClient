@@ -14432,6 +14432,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "c:\\Users\\tubot\\SmrtAprtmentClient\\Pages\\Register.cshtml",
+      "TargetPath": "Pages\\Register.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "c:\\Users\\tubot\\SmrtAprtmentClient\\Pages\\Search.cshtml",
       "TargetPath": "Pages\\Search.cshtml",
       "FileKind": "mvc"
